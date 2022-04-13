@@ -8,12 +8,12 @@ export default function Pelanggaran() {
     let [pelanggaran, setPelanggaran] = useState([])
     let [message, setMessage] = useState("")
 
-    let [idPelanggaran, setIdPelanggaran] = useState (0)
+    let [idPelanggaran, setIdPelanggaran] = useState(0)
     let [namaPelanggaran, setNamaPelanggaran] = useState("")
-    let [poin, setPoin]= useState(0)
-    let [action, setAction] = useState ("")
+    let [poin, setPoin] = useState(0)
+    let [action, setAction] = useState("")
 
-    let [modal, setModal]= useState (null)
+    let [modal, setModal] = useState(null)
 
     // get token from localstorage
     let token = localStorage.getItem(`token-pelanggaran`)
@@ -53,7 +53,7 @@ export default function Pelanggaran() {
                 // simpan di state pelanggaran
                 setPelanggaran(response.data)
                 // calling show toast
-                showToast(`Anjay Sucess nih bos`)
+                showToast(`Action Success`)
             })
             .catch(error => console.log(error))
     }
@@ -87,20 +87,20 @@ export default function Pelanggaran() {
             let endpoint = 'http://localhost:8080/pelanggaran'
             let request = {
                 nama_pelanggaran: namaPelanggaran,
-                poin:poin
+                poin: poin
             }
 
             /** sending data */
 
             axios.post(endpoint, request, authorization)
-            .then(response =>{
-                showToast(response.data.message)
-                /** refresh data pelanggaran */
-                getData()
-            })
-            .catch(error => console.log(error))
+                .then(response => {
+                    showToast(response.data.message)
+                    /** refresh data pelanggaran */
+                    getData()
+                })
+                .catch(error => console.log(error))
         }
-        else if(action ==='edit'){
+        else if (action === 'edit') {
             let endpoint = `http://localhost:8080/pelanggaran/${idPelanggaran}`
             let request = {
                 nama_pelanggaran: namaPelanggaran,
@@ -109,7 +109,20 @@ export default function Pelanggaran() {
             /** sending data to update pelanggaran */
 
             axios.put(endpoint, request, authorization)
-            .then(response =>{
+                .then(response => {
+                    showToast(response.data.message)
+                    /** refresh data pelanggaran */
+                    getData()
+                })
+                .catch(error => console.log(error))
+        }
+    }
+    let deleteData = item => {
+        if (window.confirm('Are you sure want to delete this data?')) {
+            let endpoint = `http://localhost:8080/pelanggaran/${item.id_pelanggaran}`
+            /** sending data to delete */
+            axios.delete(endpoint, authorization)
+            .then(response => {
                 showToast(response.data.message)
                 /** refresh data pelanggaran */
                 getData()
@@ -120,9 +133,9 @@ export default function Pelanggaran() {
 
     useEffect(() => {
         let modal = new Modal(document.getElementById("formPelanggaran")
-        
+
         )
-        setModal(modal) 
+        setModal(modal)
         getData()
     }, [])
 
@@ -176,11 +189,12 @@ export default function Pelanggaran() {
                                         <br />
 
                                         <button className="btn btn-sm btn-success mx-1"
-                                        onClick={() => editData(item)}>
+                                            onClick={() => editData(item)}>
                                             <span className="fa fa-edit"></span>
                                         </button>
 
-                                        <button className="btn btn-sm btn-danger mx-1">
+                                        <button className="btn btn-sm btn-danger mx-1"
+                                            onClick={() => deleteData(item)}>
                                             <span className="fa fa-trash"></span>
                                         </button>
 
@@ -223,7 +237,7 @@ export default function Pelanggaran() {
 
                                         <button className="btn btn-success" type="submit">
                                             <span className="fa fa-check"></span>Save
-                                        </button>    
+                                        </button>
 
                                     </form>
                                 </div>
