@@ -64,7 +64,7 @@ export default function Pelanggaran() {
         //Mengosongkan inputan form nya
         setIdPelanggaran(0)
         setNamaPelanggaran("")
-        setPoin(0)
+        setPoin(1)
         setAction("insert")
     }
 
@@ -225,14 +225,14 @@ export default function Pelanggaran() {
                                             type="text"
                                             className="form-control mb-2"
                                             required
-                                            onChange={e => setNamaPelanggaran(e.target.value)}
+                                            onChange={a => setNamaPelanggaran(a.target.value)}
                                             value={namaPelanggaran} />
                                         Poin
                                         <input
                                             type="number"
                                             className="form-control mb-2"
                                             required
-                                            onChange={e => setPoin(e.target.value)}
+                                            onChange={a => setPoin(a.target.value)}
                                             value={poin} />
 
                                         <button className="btn btn-success" type="submit">
