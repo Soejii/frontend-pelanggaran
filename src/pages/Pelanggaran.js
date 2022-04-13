@@ -101,7 +101,20 @@ export default function Pelanggaran() {
             .catch(error => console.log(error))
         }
         else if(action ==='edit'){
+            let endpoint = `http://localhost:8080/pelanggaran/${idPelanggaran}`
+            let request = {
+                nama_pelanggaran: namaPelanggaran,
+                poin: poin
+            }
+            /** sending data to update pelanggaran */
 
+            axios.put(endpoint, request, authorization)
+            .then(response =>{
+                showToast(response.data.message)
+                /** refresh data pelanggaran */
+                getData()
+            })
+            .catch(error => console.log(error))
         }
     }
 
