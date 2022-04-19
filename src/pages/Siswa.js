@@ -70,13 +70,41 @@ export default function Siswa() {
 
         /** mengisi inputan sesuai yang dipilih */
         setIdSiswa(item.id_siswa)
-        setName(item.name)
+        setName(item.nama)
         setNis(item.nis)
         setKelas(item.kelas)
         setPoin(item.poin)
         setAction("edit")
         setImage(null)
         setUploadImage(false)
+    }
+
+    let saveSiswa = ev => {
+        ev.preventDefault()
+
+        /** Close modal */
+        modal.hide()
+
+        if(action === 'insert') {
+            let endpoint ='http://localhost/8080/siswa'
+            let request = new FormData()
+            request.append('nis', nis)
+            request.append('nama', name)
+            request.append('kelas', kelas)
+            request.append('poin', poin)
+            request.append('image', image)
+
+            /**send data */
+            axios.post(endpoint, request, authorization)
+            .then(response => {
+                showToast(response.data.message)
+                /** refresh data */
+                getData()
+            })
+            .catch(error => console.log(error))
+        }else if (action === 'edit') {
+
+        }
     }
 
     useEffect(() => {
@@ -125,7 +153,7 @@ export default function Siswa() {
                                     {/** Description */}
                                     <div className="col-8">
                                         <small className="text-primary">Nama</small>
-                                        <h5>{item.name}</h5>
+                                        <h5>{item.nama}</h5>
                                         <small className="text-primary">NIS</small>
                                         <h5>{item.nis}</h5>
                                         <small className="text-primary">Kelas</small>
@@ -161,7 +189,7 @@ export default function Siswa() {
                                     </h4>
                                 </div>
                                 <div className="modal-body">
-                                    <form>
+                                    <form onSubmit={(ev) => saveSiswa(ev)}>
                                         {/** input for NIS */}
                                         NIS
                                         <input type="number" className="form-control mb-2"
