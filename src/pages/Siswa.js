@@ -125,6 +125,20 @@ export default function Siswa() {
         }
     }
 
+    let deleteSiswa = item => {
+        if (window.confirm('Are you sure want to delete this data?')) {
+            let endpoint = `http://localhost:8080/siswa/${item.id_siswa}`
+            /** sending data to delete */
+            axios.delete(endpoint, authorization)
+            .then(response => {
+                showToast(response.data.message)
+                /** refresh data pelanggaran */
+                getData()
+            })
+            .catch(error => console.log(error))
+        }
+    }
+
     useEffect(() => {
         let myModal = new Modal(document.getElementById("formSiswa")
         )
@@ -183,7 +197,8 @@ export default function Siswa() {
                                         onClick={() => editSiswa(item)}>
                                             <span className="fa fa-edit"></span>
                                         </button>
-                                        <button className="btn btn-danger m-2">
+                                        <button className="btn btn-danger m-2"
+                                        onClick={() => deleteSiswa(item)}>
                                             <span className="fa fa-trash"></span>
                                         </button>
                                     </div>
@@ -243,12 +258,14 @@ export default function Siswa() {
                                             onChange={ev => setImage(ev.target.files[0])}></input>
                                             <br></br>
                                             <button
-                                            className={`btn btn-dark btn-sm ${uploadImage ? `d-none` : ``}`}
+                                            type="button"
+                                            className={`btn btn-dark btn-sm mt-1 ${uploadImage ? `d-none` : ``}`}
                                             onClick={() => setUploadImage(true)}>
                                                 Click to Re-Upload Image
                                             </button>
+                                            <br></br>
                                         {/** Button for Submit */}
-                                        <button className="btn btn-success" type="submit">
+                                        <button className="btn btn-success mt-1" type="submit">
                                             Save
                                         </button>
                                     </form>
