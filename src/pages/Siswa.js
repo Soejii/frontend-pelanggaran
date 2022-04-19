@@ -14,6 +14,7 @@ export default function Siswa() {
     let [action, setAction] = useState("")
     let [message, setMessage] = useState("")
     let [modal, setModal] = useState(null)
+    let [uploadImage, setUploadImage] = useState(true)
 
     /** preparing token taken from local storage */
     let token = localStorage.getItem(`token-pelanggaran`)
@@ -47,6 +48,7 @@ export default function Siswa() {
         setImage(null)
         setPoin(0)
         setAction("insert")
+        setUploadImage(true)
     }
 
     {/** create function to show Toast */ }
@@ -62,8 +64,23 @@ export default function Siswa() {
         roti.show()
     }
 
+    let editSiswa = item => {
+        /** show modal */
+        modal.show()
+
+        /** mengisi inputan sesuai yang dipilih */
+        setIdSiswa(item.id_siswa)
+        setName(item.name)
+        setNis(item.nis)
+        setKelas(item.kelas)
+        setPoin(item.poin)
+        setAction("edit")
+        setImage(null)
+        setUploadImage(false)
+    }
+
     useEffect(() => {
-        let myModal = new Modal(document.getElementById("form-siswa")
+        let myModal = new Modal(document.getElementById("formSiswa")
         )
         setModal(myModal)
         getData()
@@ -108,14 +125,16 @@ export default function Siswa() {
                                     {/** Description */}
                                     <div className="col-8">
                                         <small className="text-primary">Nama</small>
-                                        <h5>{item.nama}</h5>
+                                        <h5>{item.name}</h5>
                                         <small className="text-primary">NIS</small>
                                         <h5>{item.nis}</h5>
                                         <small className="text-primary">Kelas</small>
                                         <h5>{item.kelas}</h5>
                                         <small className="text-primary">Point</small>
                                         <h5>{item.poin}</h5>
-                                        <button className="btn btn-success m-2">
+                                        {/** Edit Button */}
+                                        <button className="btn btn-success m-2"
+                                        onClick={() => editSiswa(item)}>
                                             <span className="fa fa-edit"></span>
                                         </button>
                                         <button className="btn btn-danger m-2">
@@ -174,7 +193,7 @@ export default function Siswa() {
                                         {/** Image Input */}
                                         Image
                                         <input type="file" className="form-control mb-2"
-                                            required accept="image/*"
+                                            required= {uploadImage} accept="image/*"
                                             onChange={ev => setImage(ev.target.files[0])}></input>
 
                                         {/** Button for Submit */}
