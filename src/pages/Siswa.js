@@ -86,7 +86,7 @@ export default function Siswa() {
         modal.hide()
 
         if(action === 'insert') {
-            let endpoint ='http://localhost/8080/siswa'
+            let endpoint ='http://localhost:8080/siswa'
             let request = new FormData()
             request.append('nis', nis)
             request.append('nama', name)
@@ -103,7 +103,25 @@ export default function Siswa() {
             })
             .catch(error => console.log(error))
         }else if (action === 'edit') {
+            let endpoint =`http://localhost:8080/siswa/${idSiswa}`
+            let request = new FormData()
+            request.append('nis', nis)
+            request.append('nama', name)
+            request.append('kelas', kelas)
+            request.append('poin', poin)
 
+            if (uploadImage === true) {
+                request.append('image', image)
+            }
+            
+            /**send data */
+            axios.put(endpoint, request, authorization)
+            .then(response => {
+                showToast(response.data.message)
+                /** refresh data */
+                getData()
+            })
+            .catch(error => console.log(error))
         }
     }
 
@@ -220,10 +238,15 @@ export default function Siswa() {
 
                                         {/** Image Input */}
                                         Image
-                                        <input type="file" className="form-control mb-2"
-                                            required= {uploadImage} accept="image/*"
+                                        <input type="file" className={`form-control mb-2 ${uploadImage ? `` : `d-none`}`}
+                                            required= {uploadImage} accept="image/jpg"
                                             onChange={ev => setImage(ev.target.files[0])}></input>
-
+                                            <br></br>
+                                            <button
+                                            className={`btn btn-dark btn-sm ${uploadImage ? `d-none` : ``}`}
+                                            onClick={() => setUploadImage(true)}>
+                                                Click to Re-Upload Image
+                                            </button>
                                         {/** Button for Submit */}
                                         <button className="btn btn-success" type="submit">
                                             Save
