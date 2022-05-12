@@ -19,7 +19,7 @@ export default function PelanggaranSiswa() {
         axios.get(endpoint, authorization)
             .then(result => {
                 // store data to state siswa
-                setSiswa(result.data.Siswa)
+                setSiswa(result.data)
             })
             .catch(error => console.log(error))
     }
