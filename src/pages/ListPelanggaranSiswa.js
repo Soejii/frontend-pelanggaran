@@ -27,7 +27,7 @@ export default function ListPelanggaranSiswa(){
     return (
         <div className="container-fluid">
             <div className="card">
-                <div className="ca item =>rd-header"
+                <div className="card-header"
                 style={{background : 'salmon'}}>
                     <h4 className="text-white" >
                         List Pelanggaran Siswa
@@ -47,6 +47,10 @@ export default function ListPelanggaranSiswa(){
                                 <div className="col-2">
                                     <small>Poin Siswa</small>
                                     <h5>{item.siswa.poin}</h5>
+                                </div>
+                                <div className="col-4">
+                                    <small>Waktu Pelanggaran</small>
+                                    <h5>{item.waktu}</h5>
                                 </div>
                             </div>
                             <div>
