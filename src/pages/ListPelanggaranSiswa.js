@@ -49,6 +49,17 @@ export default function ListPelanggaranSiswa(){
                                     <h5>{item.siswa.poin}</h5>
                                 </div>
                             </div>
+                            <div>
+                                <small>
+                                    Detail Pelanggaran
+                                </small>
+                                {item.detail_pelanggaran_siswa.map(detail => (
+                                    <h6
+                                    key={`idDetail${detail.id_pelanggaran}`}>
+                                        {detail.pelanggaran.nama_pelanggaran}
+                                    </h6>
+                                ))}
+                            </div>
                         </li>
                     ))}
                 </ul>
